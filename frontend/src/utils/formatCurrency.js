@@ -18,3 +18,4 @@ export function formatINR(amount, includeDecimals = false) {
 }
 
 export default formatINR;
+
