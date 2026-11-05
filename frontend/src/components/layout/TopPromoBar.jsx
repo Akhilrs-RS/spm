@@ -8,15 +8,15 @@ export default function TopPromoBar() {
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1 bg-amber-400 text-amber-950 font-bold px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider">
             <Zap size={11} className="fill-amber-950" />
-            Flash Deal
+            Special Deal
           </span>
           <span className="font-medium">
-            Get 20% OFF on fresh organic groceries with code <strong className="underline decoration-amber-300 font-bold tracking-wide">FRESH20</strong>
+            Get 20% OFF on farm-fresh organic produce with code <strong className="underline decoration-amber-300 font-bold tracking-wide">FRESH20</strong> | Flat ₹100 OFF on ₹799+ with <strong className="underline decoration-amber-300 font-bold tracking-wide">SUPER100</strong>
           </span>
         </div>
         <div className="hidden md:flex items-center gap-6 text-emerald-100 text-[11px]">
           <span className="flex items-center gap-1.5">
-            <Sparkles size={13} className="text-amber-300" /> Free delivery on orders over $35
+            <Sparkles size={13} className="text-amber-300" /> Free express delivery above ₹499
           </span>
           <span className="flex items-center gap-1.5">
             <ShieldCheck size={13} className="text-emerald-300" /> 100% Quality & Freshness Guarantee
@@ -26,4 +26,3 @@ export default function TopPromoBar() {
     </aside>
   );
 }
-

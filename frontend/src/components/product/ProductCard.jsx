@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Minus, Heart, Eye, Check, Sparkles } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { formatINR } from '../../utils/formatCurrency';
 import RatingStars from '../common/RatingStars';
 import Badge from '../common/Badge';
 
@@ -19,9 +20,9 @@ export default function ProductCard({ product, onQuickView }) {
   const selectedWeight = product.weightOptions[selectedWeightIdx] || product.weightOptions[0];
   const multiplier = product.weightMultipliers ? product.weightMultipliers[selectedWeightIdx] : 1;
 
-  const currentPrice = Number((product.price * multiplier).toFixed(2));
-  const currentOriginalPrice = Number((product.originalPrice * multiplier).toFixed(2));
-  const savings = Number((currentOriginalPrice - currentPrice).toFixed(2));
+  const currentPrice = Math.round(product.price * multiplier);
+  const currentOriginalPrice = Math.round(product.originalPrice * multiplier);
+  const savings = Math.max(0, currentOriginalPrice - currentPrice);
 
   // Check how many of this specific weight are in the cart
   const currentQty = getItemQuantity(product.id, selectedWeight);
@@ -99,7 +100,7 @@ export default function ProductCard({ product, onQuickView }) {
           </button>
         </div>
 
-        {/* Harvest / Specialty Badge */}
+        {/* Specialty Badge */}
         {product.badge && (
           <div className="absolute bottom-2 left-2 z-10">
             <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-[10px] text-white font-medium">
@@ -144,18 +145,18 @@ export default function ProductCard({ product, onQuickView }) {
       <div className="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
         <div>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
-              ${currentPrice.toFixed(2)}
+            <span className="text-base sm:text-lg font-black text-slate-900 tracking-tight font-mono">
+              {formatINR(currentPrice)}
             </span>
             {currentOriginalPrice > currentPrice && (
-              <span className="text-xs text-slate-400 line-through">
-                ${currentOriginalPrice.toFixed(2)}
+              <span className="text-xs text-slate-400 line-through font-mono">
+                {formatINR(currentOriginalPrice)}
               </span>
             )}
           </div>
           {savings > 0 && (
             <span className="text-[10px] font-bold text-emerald-600 block">
-              Save ${savings.toFixed(2)}
+              Save {formatINR(savings)}
             </span>
           )}
         </div>
@@ -196,4 +197,3 @@ export default function ProductCard({ product, onQuickView }) {
     </div>
   );
 }
-

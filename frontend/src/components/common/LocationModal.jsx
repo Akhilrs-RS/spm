@@ -15,6 +15,7 @@ export default function LocationModal() {
   const [showNewForm, setShowNewForm] = useState(false);
   const [newLabel, setNewLabel] = useState('Home');
   const [newAddress, setNewAddress] = useState('');
+  const [newCity, setNewCity] = useState('Bengaluru');
   const [newZip, setNewZip] = useState('');
 
   if (!isLocationModalOpen) return null;
@@ -25,7 +26,7 @@ export default function LocationModal() {
     addNewAddress({
       label: newLabel,
       address: newAddress,
-      city: 'Springfield, IL',
+      city: newCity,
       zip: newZip
     });
     setNewAddress('');
@@ -44,7 +45,7 @@ export default function LocationModal() {
             </div>
             <div>
               <h3 className="font-bold text-slate-800 text-base">Select Delivery Location</h3>
-              <p className="text-xs text-slate-500">Groceries delivered in 15–30 mins to your doorstep</p>
+              <p className="text-xs text-slate-500">Groceries delivered in 15–25 mins to your doorstep</p>
             </div>
           </div>
           <button
@@ -72,7 +73,7 @@ export default function LocationModal() {
               <div className="w-full border-t border-slate-200" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-slate-400 font-medium">Saved Addresses</span>
+              <span className="bg-white px-2 text-slate-400 font-medium">Saved Delivery Addresses</span>
             </div>
           </div>
 
@@ -108,7 +109,7 @@ export default function LocationModal() {
                         </span>
                       </div>
                       <p className="text-sm font-medium text-slate-800 mt-1">{addr.address}</p>
-                      <p className="text-xs text-slate-500">{addr.city} • {addr.zip}</p>
+                      <p className="text-xs text-slate-500">{addr.city} • PIN: {addr.zip}</p>
                     </div>
                   </div>
                   {isSelected && (
@@ -128,7 +129,7 @@ export default function LocationModal() {
               className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-50 border border-dashed border-slate-300 rounded-xl transition"
             >
               <Plus size={16} />
-              Add New Address / Pincode
+              Add New Address / PIN Code
             </button>
           ) : (
             <form onSubmit={handleAdd} className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
@@ -136,7 +137,7 @@ export default function LocationModal() {
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="text"
-                  placeholder="Label (e.g. Home, Gym)"
+                  placeholder="Label (e.g. Home, Gym, Parents)"
                   value={newLabel}
                   onChange={(e) => setNewLabel(e.target.value)}
                   className="px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-brand-500"
@@ -144,18 +145,27 @@ export default function LocationModal() {
                 />
                 <input
                   type="text"
-                  placeholder="Postal Zip Code (e.g. 62704)"
+                  placeholder="6-Digit PIN Code (e.g. 560103)"
                   value={newZip}
                   onChange={(e) => setNewZip(e.target.value)}
                   className="px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-brand-500"
+                  maxLength={6}
                   required
                 />
               </div>
               <input
                 type="text"
-                placeholder="Street address & Apt / Flat number"
+                placeholder="House/Flat No, Apartment, Street name"
                 value={newAddress}
                 onChange={(e) => setNewAddress(e.target.value)}
+                className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-brand-500"
+                required
+              />
+              <input
+                type="text"
+                placeholder="City (e.g. Bengaluru, Mumbai, Delhi)"
+                value={newCity}
+                onChange={(e) => setNewCity(e.target.value)}
                 className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-brand-500"
                 required
               />
@@ -181,4 +191,3 @@ export default function LocationModal() {
     </div>
   );
 }
-

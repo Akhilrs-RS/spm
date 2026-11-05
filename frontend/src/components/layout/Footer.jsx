@@ -13,7 +13,7 @@ export default function Footer() {
               <Clock size={24} />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-white">Under 30-Min Delivery</h4>
+              <h4 className="text-sm font-bold text-white">Under 25-Min Delivery</h4>
               <p className="text-xs text-slate-400">Guaranteed swift doorstep drops</p>
             </div>
           </div>
@@ -33,7 +33,7 @@ export default function Footer() {
               <Truck size={24} />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-white">Free Shipping Over $35</h4>
+              <h4 className="text-sm font-bold text-white">Free Delivery Over ₹499</h4>
               <p className="text-xs text-slate-400">Zero delivery surcharges</p>
             </div>
           </div>
@@ -63,17 +63,17 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Your neighborhood digital supermarket providing sustainably sourced organic fruits, dairy, artisan baked goods, and pantry staples straight from trusted local farms.
+              Your neighborhood digital supermarket providing sustainably sourced organic fruits, pure dairy, artisan breads, and pantry staples straight from trusted regional farms across India.
             </p>
             <div className="space-y-1.5 text-xs text-slate-400">
               <p className="flex items-center gap-2">
-                <MapPin size={14} className="text-brand-500" /> 742 Evergreen Terrace, Springfield
+                <MapPin size={14} className="text-brand-500" /> 100 Feet Road, Indiranagar, Bengaluru, 560038
               </p>
               <p className="flex items-center gap-2">
-                <Phone size={14} className="text-brand-500" /> +1 (800) 555-FRESH (24/7 Support)
+                <Phone size={14} className="text-brand-500" /> 1800-555-FRESH (Toll Free, 24/7 Support)
               </p>
               <p className="flex items-center gap-2">
-                <Mail size={14} className="text-brand-500" /> support@freshcart.com
+                <Mail size={14} className="text-brand-500" /> support@freshcart.in
               </p>
             </div>
           </div>
@@ -82,12 +82,12 @@ export default function Footer() {
           <div>
             <h5 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Aisles & Departments</h5>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li><a href="#" className="hover:text-brand-400 transition">Organic Fruits & Greens</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">Pasture Raised Dairy & Eggs</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">Artisan Breads & Bakery</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">Pantry & Gourmet Oils</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">Organic Fruits & Veggies</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">A2 Cow Milk, Dahi & Eggs</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">Artisan Breads & Sourdough</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">Basmati Rice, Atta & Oils</a></li>
               <li><a href="#" className="hover:text-brand-400 transition">Cold-Pressed Juices & Snacks</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">Sustainably Sourced Seafood</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">Fresh Poultry & Seafood</a></li>
             </ul>
           </div>
 
@@ -96,10 +96,10 @@ export default function Footer() {
             <h5 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Customer Care</h5>
             <ul className="space-y-2 text-xs text-slate-400">
               <li><a href="#" className="hover:text-brand-400 transition">Track Live Delivery</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">Delivery Time Slots & Zones</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">Delivery Slots & PIN Codes</a></li>
               <li><a href="#" className="hover:text-brand-400 transition">Freshness Return Policy</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">Weekly Grocery Circular</a></li>
-              <li><a href="#" className="hover:text-brand-400 transition">FreshCart Rewards Program</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">Weekly Grocery Savings</a></li>
+              <li><a href="#" className="hover:text-brand-400 transition">FreshCart Coins & Loyalty</a></li>
             </ul>
           </div>
 
@@ -107,7 +107,7 @@ export default function Footer() {
           <div>
             <h5 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Weekly Fresh Savings</h5>
             <p className="text-xs text-slate-400 mb-3">
-              Subscribe for exclusive flash deals, local farm harvest arrivals, and seasonal recipe cards.
+              Subscribe for exclusive flash deals, Mandi harvest updates, and seasonal Indian recipes.
             </p>
             <div className="space-y-2">
               <input
@@ -119,7 +119,7 @@ export default function Footer() {
                 type="button"
                 className="w-full py-2 bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs rounded-xl transition shadow-md"
               >
-                Get $10 Off First Order
+                Get ₹100 Off First Order
               </button>
             </div>
           </div>
@@ -128,13 +128,13 @@ export default function Footer() {
 
         {/* Bottom Credits */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© 2026 FreshCart Supermarkets Inc. All rights reserved.</p>
+          <p>© 2026 FreshCart Supermarket India Pvt. Ltd. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-slate-400">Privacy Policy</a>
             <span>•</span>
             <a href="#" className="hover:text-slate-400">Terms of Service</a>
             <span>•</span>
-            <a href="#" className="hover:text-slate-400">Nutrition Transparency</a>
+            <a href="#" className="hover:text-slate-400">FSSAI Certified</a>
           </div>
         </div>
 
@@ -142,4 +142,3 @@ export default function Footer() {
     </footer>
   );
 }
-

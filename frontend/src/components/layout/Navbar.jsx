@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useLocation } from '../../context/LocationContext';
+import { formatINR } from '../../utils/formatCurrency';
 
 export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory }) {
   const { totalItemCount, subtotal, setIsCartOpen } = useCart();
@@ -34,7 +35,7 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block"></span>
                 </span>
                 <span className="text-[10px] font-semibold text-slate-400 tracking-wider uppercase -mt-1">
-                  Supermarket & Deli
+                  Supermarket & Groceries
                 </span>
               </div>
             </a>
@@ -50,10 +51,10 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
               <div className="flex flex-col">
                 <div className="flex items-center gap-1 text-[11px] font-bold text-slate-900">
                   <span className="truncate max-w-[120px]">{selectedAddress?.label || 'Deliver to'}</span>
-                  <span className="text-brand-600 font-semibold">• {selectedAddress?.estimatedMinutes || '25'}m</span>
+                  <span className="text-brand-600 font-semibold">• {selectedAddress?.estimatedMinutes || '20'}m</span>
                   <ChevronDown size={12} className="text-slate-400 group-hover:text-slate-700 transition" />
                 </div>
-                <span className="text-[10px] text-slate-500 truncate max-w-[140px]">
+                <span className="text-[10px] text-slate-500 truncate max-w-[150px]">
                   {selectedAddress?.address || 'Choose delivery location'}
                 </span>
               </div>
@@ -72,7 +73,7 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
               <Search size={18} className="text-slate-400 shrink-0 mr-2.5" />
               <input
                 type="text"
-                placeholder="Search fresh fruits, organic milk, sourdough bread, coffee..."
+                placeholder="Search fresh palak, A2 cow milk, basmati rice, desi butter, curd..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
@@ -130,8 +131,8 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
                 <span className="text-[10px] font-medium text-emerald-100 uppercase tracking-wider">
                   My Cart
                 </span>
-                <span className="text-xs font-bold">
-                  {totalItemCount > 0 ? `$${subtotal.toFixed(2)}` : 'Empty'}
+                <span className="text-xs font-bold font-mono">
+                  {totalItemCount > 0 ? formatINR(subtotal) : 'Empty'}
                 </span>
               </div>
             </button>
@@ -142,4 +143,3 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
     </header>
   );
 }
-

@@ -49,7 +49,7 @@ export default function OrderSuccessModal({ orderDetails, onClose }) {
               <Clock size={15} />
               Estimated Arrival:
             </span>
-            <span className="text-brand-700 font-extrabold">{orderDetails.slot?.time || '25–35 mins'}</span>
+            <span className="text-brand-700 font-extrabold">{orderDetails.slot?.time || '15–25 mins'}</span>
           </div>
 
           {/* Stepper */}

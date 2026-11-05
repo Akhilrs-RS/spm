@@ -77,7 +77,7 @@ export default function HeroSlider({ onSelectCategory }) {
           {/* Quick Promise */}
           <div className="flex items-center gap-4 mt-6 text-xs text-slate-300 font-medium">
             <span className="flex items-center gap-1.5">
-              <Clock size={14} className="text-emerald-400" /> Doorstep drop in 15–30 mins
+              <Clock size={14} className="text-emerald-400" /> Doorstep drop in 15–25 mins
             </span>
             <span>•</span>
             <span>Zero contact delivery available</span>

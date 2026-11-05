@@ -6,20 +6,20 @@ const SAVED_ADDRESSES = [
   {
     id: 'addr-1',
     label: 'Home',
-    address: '742 Evergreen Terrace, Apt 4B',
-    city: 'Springfield, IL',
-    zip: '62704',
+    address: 'Flat 402, Green Glen Layout, Bellandur',
+    city: 'Bengaluru, Karnataka',
+    zip: '560103',
     isDefault: true,
     estimatedMinutes: '15-25'
   },
   {
     id: 'addr-2',
     label: 'Office / Work',
-    address: '100 Innovation Parkway, Suite 300',
-    city: 'Springfield, IL',
-    zip: '62701',
+    address: 'Bagmane Tech Park, CV Raman Nagar',
+    city: 'Bengaluru, Karnataka',
+    zip: '560093',
     isDefault: false,
-    estimatedMinutes: '25-35'
+    estimatedMinutes: '20-30'
   }
 ];
 
@@ -29,8 +29,8 @@ export function LocationProvider({ children }) {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [deliverySlot, setDeliverySlot] = useState({
     type: 'express',
-    title: 'Express Delivery (Under 30 mins)',
-    time: '25-35 mins'
+    title: 'Express Delivery (Under 25 mins)',
+    time: '15-25 mins'
   });
 
   const selectAddress = (addr) => {
@@ -75,4 +75,3 @@ export function useLocation() {
   }
   return context;
 }
-

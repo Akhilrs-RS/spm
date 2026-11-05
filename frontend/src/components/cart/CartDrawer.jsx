@@ -13,6 +13,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { formatINR } from '../../utils/formatCurrency';
 import { IMPULSE_ITEMS } from '../../data/mockProducts';
 
 export default function CartDrawer({ onProceedCheckout }) {
@@ -31,6 +32,7 @@ export default function CartDrawer({ onProceedCheckout }) {
     promoCode,
     promoDiscountAmount,
     discountPercent,
+    flatDiscount,
     estimatedTax,
     grandTotal,
     promoError,
@@ -73,7 +75,7 @@ export default function CartDrawer({ onProceedCheckout }) {
               <div>
                 <h3 className="font-extrabold text-slate-900 text-base">Your Grocery Basket</h3>
                 <p className="text-xs text-slate-500 font-medium">
-                  {totalItemCount} {totalItemCount === 1 ? 'item' : 'items'} in cart
+                  {totalItemCount} {totalItemCount === 1 ? 'item' : 'items'} in basket
                 </p>
               </div>
             </div>
@@ -94,7 +96,7 @@ export default function CartDrawer({ onProceedCheckout }) {
                   <span className="text-emerald-700 font-black">🎉 You unlocked FREE Express Delivery!</span>
                 ) : (
                   <span>
-                    Add <strong className="text-emerald-700">${amountUntilFreeDelivery.toFixed(2)}</strong> more for FREE Delivery
+                    Add <strong className="text-emerald-700">{formatINR(amountUntilFreeDelivery)}</strong> more for FREE Delivery
                   </span>
                 )}
               </span>
@@ -117,7 +119,7 @@ export default function CartDrawer({ onProceedCheckout }) {
                 </div>
                 <h4 className="text-base font-bold text-slate-800 mb-1">Your basket is empty</h4>
                 <p className="text-xs text-slate-400 max-w-xs mb-6">
-                  Fill it with fresh fruits, farm dairy, oven-baked bread, and delicious groceries.
+                  Fill it with fresh sabzi, A2 milk, oven-fresh bread, and pantry staples.
                 </p>
                 <button
                   onClick={() => setIsCartOpen(false)}
@@ -142,12 +144,12 @@ export default function CartDrawer({ onProceedCheckout }) {
                     
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-baseline gap-1.5">
-                        <span className="font-black text-slate-900 text-xs sm:text-sm">
-                          ${(item.price * item.quantity).toFixed(2)}
+                        <span className="font-black text-slate-900 text-xs sm:text-sm font-mono">
+                          {formatINR(item.price * item.quantity)}
                         </span>
                         {item.quantity > 1 && (
-                          <span className="text-[10px] text-slate-400">
-                            (${item.price.toFixed(2)} each)
+                          <span className="text-[10px] text-slate-400 font-mono">
+                            ({formatINR(item.price)} each)
                           </span>
                         )}
                       </div>
@@ -160,7 +162,7 @@ export default function CartDrawer({ onProceedCheckout }) {
                         >
                           <Minus size={12} strokeWidth={2.5} />
                         </button>
-                        <span className="w-6 text-center text-xs font-bold text-slate-800">
+                        <span className="w-6 text-center text-xs font-bold text-slate-800 select-none">
                           {item.quantity}
                         </span>
                         <button
@@ -183,7 +185,7 @@ export default function CartDrawer({ onProceedCheckout }) {
               ))
             )}
 
-            {/* Impulse Add-Ons ("Don't forget essentials") */}
+            {/* Impulse Add-Ons ("Frequently Added Essentials") */}
             {cartItems.length > 0 && (
               <div className="pt-6">
                 <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2.5">
@@ -198,7 +200,7 @@ export default function CartDrawer({ onProceedCheckout }) {
                     >
                       <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded-lg mb-1" />
                       <span className="text-[10px] font-bold text-slate-800 line-clamp-1">{item.name}</span>
-                      <span className="text-[10px] font-black text-brand-600 my-0.5">${item.price.toFixed(2)}</span>
+                      <span className="text-[10px] font-black text-brand-600 my-0.5 font-mono">{formatINR(item.price)}</span>
                       <button
                         onClick={() =>
                           addToCart({
@@ -230,7 +232,7 @@ export default function CartDrawer({ onProceedCheckout }) {
                     <div>
                       <span className="font-bold text-emerald-900">{promoCode} Applied</span>
                       <span className="text-emerald-700 font-semibold block text-[10px]">
-                        Saved ${promoDiscountAmount.toFixed(2)} ({discountPercent}% OFF)
+                        Saved {formatINR(promoDiscountAmount)} ({discountPercent ? `${discountPercent}% OFF` : `Flat ₹${flatDiscount} OFF`})
                       </span>
                     </div>
                   </div>
@@ -248,7 +250,7 @@ export default function CartDrawer({ onProceedCheckout }) {
                       <Tag size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                       <input
                         type="text"
-                        placeholder="Promo code (e.g. FRESH20)"
+                        placeholder="Coupon (e.g. FRESH20, SUPER100)"
                         value={inputCode}
                         onChange={(e) => setInputCode(e.target.value)}
                         className="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-500 uppercase font-mono"
@@ -272,36 +274,36 @@ export default function CartDrawer({ onProceedCheckout }) {
               {/* Price Breakdown */}
               <div className="space-y-1.5 text-xs text-slate-600 border-t border-slate-100 pt-2.5">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span className="font-bold text-slate-800">${subtotal.toFixed(2)}</span>
+                  <span>Item Subtotal</span>
+                  <span className="font-bold text-slate-800 font-mono">{formatINR(subtotal)}</span>
                 </div>
                 {totalSavings > 0 && (
                   <div className="flex justify-between text-emerald-600 font-semibold">
                     <span>Store Discounts</span>
-                    <span>-${totalSavings.toFixed(2)}</span>
+                    <span className="font-mono">-{formatINR(totalSavings)}</span>
                   </div>
                 )}
                 {promoDiscountAmount > 0 && (
                   <div className="flex justify-between text-emerald-600 font-semibold">
-                    <span>Coupon ({discountPercent}%)</span>
-                    <span>-${promoDiscountAmount.toFixed(2)}</span>
+                    <span>Coupon Savings</span>
+                    <span className="font-mono">-{formatINR(promoDiscountAmount)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Delivery Fee</span>
+                  <span>Delivery Partner Fee</span>
                   {deliveryFee === 0 ? (
                     <span className="font-bold text-emerald-600">FREE</span>
                   ) : (
-                    <span className="font-semibold text-slate-800">${deliveryFee.toFixed(2)}</span>
+                    <span className="font-semibold text-slate-800 font-mono">{formatINR(deliveryFee)}</span>
                   )}
                 </div>
                 <div className="flex justify-between">
-                  <span>Estimated Tax</span>
-                  <span className="font-semibold text-slate-800">${estimatedTax.toFixed(2)}</span>
+                  <span>Estimated Taxes & Packaging</span>
+                  <span className="font-semibold text-slate-800 font-mono">{formatINR(estimatedTax)}</span>
                 </div>
                 <div className="flex justify-between text-base font-black text-slate-900 pt-2 border-t border-slate-200">
-                  <span>Total Due</span>
-                  <span>${grandTotal.toFixed(2)}</span>
+                  <span>Total Amount</span>
+                  <span className="font-mono">{formatINR(grandTotal)}</span>
                 </div>
               </div>
 
@@ -315,7 +317,7 @@ export default function CartDrawer({ onProceedCheckout }) {
               >
                 <span>Proceed to Checkout</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-mono text-emerald-100">${grandTotal.toFixed(2)}</span>
+                  <span className="font-mono text-emerald-100">{formatINR(grandTotal)}</span>
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
@@ -328,4 +330,3 @@ export default function CartDrawer({ onProceedCheckout }) {
     </div>
   );
 }
-

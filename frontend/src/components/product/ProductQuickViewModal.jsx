@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Star, ShieldCheck, Truck, RefreshCw, Plus, Minus, Heart } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { formatINR } from '../../utils/formatCurrency';
 import RatingStars from '../common/RatingStars';
 import Badge from '../common/Badge';
 
@@ -12,8 +13,8 @@ export default function ProductQuickViewModal({ product, onClose }) {
 
   const selectedWeight = product.weightOptions[selectedWeightIdx] || product.weightOptions[0];
   const multiplier = product.weightMultipliers ? product.weightMultipliers[selectedWeightIdx] : 1;
-  const currentPrice = Number((product.price * multiplier).toFixed(2));
-  const currentOriginalPrice = Number((product.originalPrice * multiplier).toFixed(2));
+  const currentPrice = Math.round(product.price * multiplier);
+  const currentOriginalPrice = Math.round(product.originalPrice * multiplier);
   const currentQty = getItemQuantity(product.id, selectedWeight);
   const cartKey = `${product.id}-${selectedWeight}`;
 
@@ -95,7 +96,7 @@ export default function ProductQuickViewModal({ product, onClose }) {
               <div className="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px] text-slate-600 mb-6">
                 <div className="flex items-center gap-1.5">
                   <Truck size={14} className="text-brand-600" />
-                  <span>Delivered in 25 mins</span>
+                  <span>Delivered in 20 mins</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck size={14} className="text-brand-600" />
@@ -108,12 +109,12 @@ export default function ProductQuickViewModal({ product, onClose }) {
             <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
               <div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-black text-slate-900">
-                    ${currentPrice.toFixed(2)}
+                  <span className="text-2xl font-black text-slate-900 font-mono">
+                    {formatINR(currentPrice)}
                   </span>
                   {currentOriginalPrice > currentPrice && (
-                    <span className="text-sm text-slate-400 line-through">
-                      ${currentOriginalPrice.toFixed(2)}
+                    <span className="text-sm text-slate-400 line-through font-mono">
+                      {formatINR(currentOriginalPrice)}
                     </span>
                   )}
                 </div>
@@ -155,4 +156,3 @@ export default function ProductQuickViewModal({ product, onClose }) {
     </div>
   );
 }
-

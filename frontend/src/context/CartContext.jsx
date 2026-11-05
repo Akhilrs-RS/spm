@@ -2,9 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
-const FREE_DELIVERY_THRESHOLD = 35.00;
-const STANDARD_DELIVERY_FEE = 3.99;
-const ESTIMATED_TAX_RATE = 0.05; // 5% grocery tax
+const FREE_DELIVERY_THRESHOLD = 499.00; // Free delivery above ₹499
+const STANDARD_DELIVERY_FEE = 49.00;    // Standard delivery ₹49
+const ESTIMATED_TAX_RATE = 0.05;        // 5% GST on select groceries
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
@@ -19,6 +19,7 @@ export function CartProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [discountPercent, setDiscountPercent] = useState(0);
+  const [flatDiscount, setFlatDiscount] = useState(0);
   const [promoError, setPromoError] = useState('');
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -42,8 +43,8 @@ export function CartProvider({ children }) {
   const addToCart = (product, selectedWeight = null, multiplier = 1) => {
     const weight = selectedWeight || product.weightOptions[0];
     const key = getCartKey(product.id, weight);
-    const itemPrice = Number((product.price * multiplier).toFixed(2));
-    const origPrice = Number((product.originalPrice * multiplier).toFixed(2));
+    const itemPrice = Math.round(product.price * multiplier);
+    const origPrice = Math.round(product.originalPrice * multiplier);
 
     setCartItems(prev => {
       const existing = prev.find(item => item.cartKey === key);
@@ -99,6 +100,7 @@ export function CartProvider({ children }) {
     setCartItems([]);
     setPromoCode('');
     setDiscountPercent(0);
+    setFlatDiscount(0);
   };
 
   const getItemQuantity = (productId, selectedWeight) => {
@@ -111,24 +113,27 @@ export function CartProvider({ children }) {
     const cleanCode = (code || '').trim().toUpperCase();
     if (cleanCode === 'FRESH20') {
       setDiscountPercent(20);
+      setFlatDiscount(0);
       setPromoCode('FRESH20');
       setPromoError('');
       showToast('20% discount applied!');
       return true;
     } else if (cleanCode === 'BAKERY15') {
       setDiscountPercent(15);
+      setFlatDiscount(0);
       setPromoCode('BAKERY15');
       setPromoError('');
       showToast('15% discount applied!');
       return true;
-    } else if (cleanCode === 'PANTRY30') {
-      setDiscountPercent(30);
-      setPromoCode('PANTRY30');
+    } else if (cleanCode === 'SUPER100') {
+      setDiscountPercent(0);
+      setFlatDiscount(100);
+      setPromoCode('SUPER100');
       setPromoError('');
-      showToast('30% discount applied!');
+      showToast('Flat ₹100 discount applied!');
       return true;
     } else {
-      setPromoError('Invalid coupon code. Try FRESH20');
+      setPromoError('Invalid coupon code. Try FRESH20 or SUPER100');
       return false;
     }
   };
@@ -136,31 +141,38 @@ export function CartProvider({ children }) {
   const removePromo = () => {
     setPromoCode('');
     setDiscountPercent(0);
+    setFlatDiscount(0);
     setPromoError('');
   };
 
   // Calculations
   const totalItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  const subtotal = Number(
-    cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)
+  const subtotal = Math.round(
+    cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
   );
 
-  const totalSavings = Number(
+  const totalSavings = Math.round(
     cartItems.reduce(
       (acc, item) => acc + ((item.originalPrice || item.price) - item.price) * item.quantity,
       0
-    ).toFixed(2)
+    )
   );
 
   const isFreeDelivery = subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0;
   const deliveryFee = subtotal === 0 ? 0 : isFreeDelivery ? 0 : STANDARD_DELIVERY_FEE;
-  const amountUntilFreeDelivery = Math.max(0, Number((FREE_DELIVERY_THRESHOLD - subtotal).toFixed(2)));
+  const amountUntilFreeDelivery = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
   const freeDeliveryProgress = Math.min(100, Math.round((subtotal / FREE_DELIVERY_THRESHOLD) * 100));
 
-  const promoDiscountAmount = Number(((subtotal * discountPercent) / 100).toFixed(2));
-  const estimatedTax = Number(((subtotal - promoDiscountAmount) * ESTIMATED_TAX_RATE).toFixed(2));
-  const grandTotal = Number((subtotal - promoDiscountAmount + deliveryFee + estimatedTax).toFixed(2));
+  let promoDiscountAmount = 0;
+  if (discountPercent > 0) {
+    promoDiscountAmount = Math.round((subtotal * discountPercent) / 100);
+  } else if (flatDiscount > 0) {
+    promoDiscountAmount = Math.min(flatDiscount, subtotal);
+  }
+
+  const estimatedTax = Math.round((subtotal - promoDiscountAmount) * ESTIMATED_TAX_RATE);
+  const grandTotal = Math.max(0, subtotal - promoDiscountAmount + deliveryFee + estimatedTax);
 
   return (
     <CartContext.Provider
@@ -176,6 +188,7 @@ export function CartProvider({ children }) {
         freeDeliveryProgress,
         promoCode,
         discountPercent,
+        flatDiscount,
         promoDiscountAmount,
         estimatedTax,
         grandTotal,
@@ -205,4 +218,3 @@ export function useCart() {
   }
   return context;
 }
-

@@ -8,16 +8,19 @@ import {
   CheckCircle2,
   Wallet,
   Banknote,
-  Sparkles
+  Sparkles,
+  QrCode,
+  Building
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useLocation } from '../../context/LocationContext';
+import { formatINR } from '../../utils/formatCurrency';
 
 const SLOTS = [
-  { id: 'slot-1', label: '⚡ Express Delivery', time: 'Arriving in 25–35 mins', isExpress: true },
+  { id: 'slot-1', label: '⚡ Express Delivery', time: 'Arriving in 15–25 mins', isExpress: true },
   { id: 'slot-2', label: 'Today Afternoon', time: '2:00 PM – 4:00 PM', isExpress: false },
   { id: 'slot-3', label: 'Today Evening', time: '6:00 PM – 8:00 PM', isExpress: false },
-  { id: 'slot-4', label: 'Tomorrow Morning', time: '8:00 AM – 10:00 AM', isExpress: false },
+  { id: 'slot-4', label: 'Tomorrow Morning', time: '7:00 AM – 9:00 AM', isExpress: false },
 ];
 
 export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
@@ -25,7 +28,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
   const { selectedAddress, setIsLocationModalOpen } = useLocation();
 
   const [selectedSlot, setSelectedSlot] = useState(SLOTS[0]);
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [paymentMethod, setPaymentMethod] = useState('upi');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
@@ -36,7 +39,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
       setIsSubmitting(false);
       clearCart();
       onOrderPlaced({
-        orderId: `FC-${Math.floor(100000 + Math.random() * 900000)}`,
+        orderId: `FC-IN-${Math.floor(100000 + Math.random() * 900000)}`,
         address: selectedAddress,
         slot: selectedSlot,
         itemsCount: totalItemCount,
@@ -54,7 +57,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
         <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
           <div>
             <h3 className="text-lg font-black text-slate-900">Checkout & Delivery</h3>
-            <p className="text-xs text-slate-500 font-medium">Review delivery details and finalize order</p>
+            <p className="text-xs text-slate-500 font-medium">Review your address, time slot, and payment</p>
           </div>
           <button
             onClick={onClose}
@@ -92,7 +95,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
                   </span>
                 </div>
                 <p className="text-sm font-semibold text-slate-800 mt-1 truncate">{selectedAddress?.address}</p>
-                <p className="text-xs text-slate-400">{selectedAddress?.city} • {selectedAddress?.zip}</p>
+                <p className="text-xs text-slate-400">{selectedAddress?.city} • PIN: {selectedAddress?.zip}</p>
               </div>
             </div>
           </div>
@@ -120,7 +123,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
                       <span className="font-bold text-xs text-slate-900">{slot.label}</span>
                       {slot.isExpress && (
                         <span className="px-1.5 py-0.5 rounded bg-orange-500 text-white text-[9px] font-black uppercase">
-                          Hot
+                          Fastest
                         </span>
                       )}
                     </div>
@@ -131,12 +134,26 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
             </div>
           </div>
 
-          {/* Step 3: Payment Method */}
+          {/* Step 3: Payment Method (Indian Options) */}
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2.5">
               3. Payment Method
             </span>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('upi')}
+                className={`p-3 rounded-2xl border flex flex-col items-center text-center gap-1.5 transition ${
+                  paymentMethod === 'upi'
+                    ? 'border-brand-600 bg-brand-50/70 shadow-xs ring-1 ring-brand-500'
+                    : 'border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                <QrCode size={20} className={paymentMethod === 'upi' ? 'text-brand-600' : 'text-slate-500'} />
+                <span className="text-xs font-bold text-slate-800">UPI Instant</span>
+                <span className="text-[10px] text-slate-400">GPay, PhonePe, Paytm</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setPaymentMethod('card')}
@@ -147,22 +164,22 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
                 }`}
               >
                 <CreditCard size={20} className={paymentMethod === 'card' ? 'text-brand-600' : 'text-slate-500'} />
-                <span className="text-xs font-bold text-slate-800">Card</span>
-                <span className="text-[10px] text-slate-400">Debit / Credit</span>
+                <span className="text-xs font-bold text-slate-800">Cards</span>
+                <span className="text-[10px] text-slate-400">RuPay, Visa, Master</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setPaymentMethod('wallet')}
+                onClick={() => setPaymentMethod('netbanking')}
                 className={`p-3 rounded-2xl border flex flex-col items-center text-center gap-1.5 transition ${
-                  paymentMethod === 'wallet'
+                  paymentMethod === 'netbanking'
                     ? 'border-brand-600 bg-brand-50/70 shadow-xs ring-1 ring-brand-500'
                     : 'border-slate-200 hover:bg-slate-50'
                 }`}
               >
-                <Wallet size={20} className={paymentMethod === 'wallet' ? 'text-brand-600' : 'text-slate-500'} />
-                <span className="text-xs font-bold text-slate-800">Apple / GPay</span>
-                <span className="text-[10px] text-slate-400">1-Tap Fast</span>
+                <Building size={20} className={paymentMethod === 'netbanking' ? 'text-brand-600' : 'text-slate-500'} />
+                <span className="text-xs font-bold text-slate-800">Net Banking</span>
+                <span className="text-[10px] text-slate-400">All Major Banks</span>
               </button>
 
               <button
@@ -175,8 +192,8 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
                 }`}
               >
                 <Banknote size={20} className={paymentMethod === 'cod' ? 'text-brand-600' : 'text-slate-500'} />
-                <span className="text-xs font-bold text-slate-800">Cash on Drop</span>
-                <span className="text-[10px] text-slate-400">Pay at Door</span>
+                <span className="text-xs font-bold text-slate-800">Cash / UPI at Door</span>
+                <span className="text-[10px] text-slate-400">Pay on Delivery</span>
               </button>
             </div>
           </div>
@@ -184,7 +201,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
           {/* Guarantee Pill */}
           <div className="flex items-center gap-2 p-3 bg-emerald-50 rounded-xl border border-emerald-200/60 text-xs text-brand-900 font-medium">
             <ShieldCheck size={18} className="text-brand-600 shrink-0" />
-            <span>256-bit SSL encrypted checkout. 100% money-back freshness guarantee.</span>
+            <span>100% secure payment. 10-minute return/refund guarantee if produce freshness isn't top notch.</span>
           </div>
 
         </div>
@@ -193,7 +210,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
         <div className="p-5 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-4">
           <div>
             <span className="text-xs text-slate-500 block">Total Amount to Pay</span>
-            <span className="text-2xl font-black text-slate-900 font-mono">${grandTotal.toFixed(2)}</span>
+            <span className="text-2xl font-black text-slate-900 font-mono">{formatINR(grandTotal)}</span>
           </div>
           <button
             onClick={handlePlaceOrder}
@@ -205,7 +222,7 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
             ) : (
               <>
                 <CheckCircle2 size={18} />
-                <span>Place Order (${grandTotal.toFixed(2)})</span>
+                <span>Place Order ({formatINR(grandTotal)})</span>
               </>
             )}
           </button>
@@ -215,4 +232,3 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
     </div>
   );
 }
-

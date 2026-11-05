@@ -56,9 +56,12 @@ npm run build
 ---
 
 ## ✨ Key Features
+- **INR Currency & Localization**: Native Indian Rupee (`₹`) pricing with standard metric units (`kg`, `g`, `L`, `ml`).
 - **Instant Quantity Adjustment**: Direct `[-] [qty] [+]` controls on product cards.
 - **Pack & Weight Selectors**: Dynamic unit pricing and weight variants.
-- **Express Delivery**: Delivery time-slot picker (15–30 min express delivery).
-- **Gamified Basket Building**: Slide-over cart drawer with a dynamic "Free Delivery" milestone progress bar.
-- **Deals & Seasonal Offers**: Animated flash sales timer and promotional banner carousel with instant coupon redemption (`FRESH20`).
+- **Express 15–25m Delivery**: Delivery time-slot picker with quick delivery guarantee.
+- **Gamified Basket Building**: Slide-over cart drawer with a dynamic "Free Delivery above ₹499" milestone progress bar.
+- **Deals & Seasonal Offers**: Animated flash sales timer and promotional banner carousel with instant coupon redemption (`FRESH20`, `SUPER100`).
+- **Indian Payment Stack**: UPI (Google Pay, PhonePe, Paytm), RuPay/Cards, Net Banking, and Cash on Delivery (COD).
 - **Celebratory Checkout**: Multi-step checkout with celebratory order confirmation animations.
+

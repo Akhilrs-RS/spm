@@ -10,7 +10,7 @@ export default function ProductSection({
   searchQuery,
   onQuickView
 }) {
-  const [filterType, setFilterType] = useState('all'); // 'all', 'organic', 'deals', 'under5'
+  const [filterType, setFilterType] = useState('all'); // 'all', 'organic', 'deals', 'under99'
   const [sortBy, setSortBy] = useState('featured'); // 'featured', 'price-asc', 'price-desc', 'rating'
 
   const filteredProducts = useMemo(() => {
@@ -37,8 +37,8 @@ export default function ProductSection({
       list = list.filter((p) => p.isOrganic);
     } else if (filterType === 'deals') {
       list = list.filter((p) => p.isDeal || p.discount > 0);
-    } else if (filterType === 'under5') {
-      list = list.filter((p) => p.price < 5.0);
+    } else if (filterType === 'under99') {
+      list = list.filter((p) => p.price < 99);
     }
 
     // Sorting
@@ -69,7 +69,7 @@ export default function ProductSection({
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            Always fresh, hand-inspected, and delivered within 15–30 minutes
+            Always fresh, hand-inspected, and delivered within 15–25 minutes
           </p>
         </div>
 
@@ -109,14 +109,14 @@ export default function ProductSection({
               Deals
             </button>
             <button
-              onClick={() => setFilterType('under5')}
+              onClick={() => setFilterType('under99')}
               className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
-                filterType === 'under5'
+                filterType === 'under99'
                   ? 'bg-slate-800 text-white shadow-2xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Under $5
+              Under ₹99
             </button>
           </div>
 
@@ -171,4 +171,3 @@ export default function ProductSection({
     </section>
   );
 }
-
