@@ -13,6 +13,7 @@ import {
 import { useCart } from '../../context/CartContext';
 import { useLocation } from '../../context/LocationContext';
 import { useUser } from '../../context/UserContext';
+import { useWishlist } from '../../context/WishlistContext';
 import { formatINR } from '../../utils/formatCurrency';
 
 export default function Navbar({
@@ -25,6 +26,7 @@ export default function Navbar({
   const { totalItemCount, subtotal, setIsCartOpen } = useCart();
   const { selectedAddress, setIsLocationModalOpen } = useLocation();
   const { profile, setIsProfileOpen } = useUser();
+  const { wishlistCount, setIsWishlistOpen } = useWishlist();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const getInitials = (fullName) => {
@@ -123,13 +125,18 @@ export default function Navbar({
 
           {/* Actions & Dynamic Cart Button */}
           <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Wishlist Icon */}
+            {/* Wishlist Button */}
             <button
-              title="Saved Groceries"
-              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition relative"
+              onClick={() => setIsWishlistOpen(true)}
+              title={`Saved Groceries (${wishlistCount})`}
+              className="flex items-center justify-center w-10 h-10 rounded-xl text-slate-600 hover:text-rose-500 hover:bg-rose-50 border border-slate-200/80 transition relative"
             >
-              <Heart size={20} />
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-orange-500 ring-2 ring-white"></span>
+              <Heart size={20} className={wishlistCount > 0 ? 'text-rose-500 fill-rose-500' : ''} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-xs animate-pulse-subtle">
+                  {wishlistCount}
+                </span>
+              )}
             </button>
 
             {/* Profile / Account Button */}

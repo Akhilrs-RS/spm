@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Minus, Heart, Eye, Check, Sparkles } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import { formatINR } from '../../utils/formatCurrency';
 import RatingStars from '../common/RatingStars';
 import Badge from '../common/Badge';
@@ -13,9 +14,12 @@ export default function ProductCard({ product, onQuickView }) {
     cartItems
   } = useCart();
 
+  const { isInWishlist, toggleWishlist } = useWishlist();
+
   const [selectedWeightIdx, setSelectedWeightIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const isLiked = isInWishlist(product.id);
 
   const selectedWeight = product.weightOptions[selectedWeightIdx] || product.weightOptions[0];
   const multiplier = product.weightMultipliers ? product.weightMultipliers[selectedWeightIdx] : 1;
@@ -77,15 +81,16 @@ export default function ProductCard({ product, onQuickView }) {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setIsLiked(!isLiked);
+              toggleWishlist(product);
             }}
             className={`w-8 h-8 rounded-full flex items-center justify-center transition backdrop-blur-xs ${
               isLiked
-                ? 'bg-rose-50 text-rose-500'
+                ? 'bg-rose-50 text-rose-500 shadow-xs'
                 : 'bg-white/90 text-slate-400 hover:text-rose-500 hover:bg-white shadow-xs'
             }`}
+            title={isLiked ? 'Remove from wishlist' : 'Save to wishlist'}
           >
-            <Heart size={15} className={isLiked ? 'fill-rose-500' : ''} />
+            <Heart size={15} className={isLiked ? 'fill-rose-500 text-rose-500 scale-110' : ''} />
           </button>
 
           <button

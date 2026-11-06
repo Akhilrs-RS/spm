@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CartProvider } from './context/CartContext';
 import { LocationProvider } from './context/LocationContext';
 import { UserProvider } from './context/UserContext';
+import { WishlistProvider } from './context/WishlistContext';
 import TopPromoBar from './components/layout/TopPromoBar';
 import Navbar from './components/layout/Navbar';
 import CategoryPills from './components/layout/CategoryPills';
@@ -13,6 +14,7 @@ import AllCategoriesView from './components/home/AllCategoriesView';
 import ProductSection from './components/product/ProductSection';
 import ProductQuickViewModal from './components/product/ProductQuickViewModal';
 import CartDrawer from './components/cart/CartDrawer';
+import WishlistDrawer from './components/wishlist/WishlistDrawer';
 import CheckoutModal from './components/checkout/CheckoutModal';
 import OrderSuccessModal from './components/checkout/OrderSuccessModal';
 import LocationModal from './components/common/LocationModal';
@@ -104,6 +106,8 @@ function SupermarketApp() {
       {/* Modals & Slide-Overs */}
       <CartDrawer onProceedCheckout={() => setIsCheckoutOpen(true)} />
 
+      <WishlistDrawer onQuickView={(prod) => setQuickViewProduct(prod)} />
+
       <AllCategoriesDrawer
         isOpen={isCategoriesDrawerOpen}
         onClose={() => setIsCategoriesDrawerOpen(false)}
@@ -140,7 +144,9 @@ export default function App() {
     <UserProvider>
       <LocationProvider>
         <CartProvider>
-          <SupermarketApp />
+          <WishlistProvider>
+            <SupermarketApp />
+          </WishlistProvider>
         </CartProvider>
       </LocationProvider>
     </UserProvider>

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { X, Star, ShieldCheck, Truck, RefreshCw, Plus, Minus, Heart } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import { formatINR } from '../../utils/formatCurrency';
 import RatingStars from '../common/RatingStars';
 import Badge from '../common/Badge';
 
 export default function ProductQuickViewModal({ product, onClose }) {
   const { addToCart, getItemQuantity, updateQuantity } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const [selectedWeightIdx, setSelectedWeightIdx] = useState(0);
 
   if (!product) return null;
 
+  const isLiked = isInWishlist(product.id);
   const selectedWeight = product.weightOptions[selectedWeightIdx] || product.weightOptions[0];
   const multiplier = product.weightMultipliers ? product.weightMultipliers[selectedWeightIdx] : 1;
   const currentPrice = Math.round(product.price * multiplier);
@@ -42,6 +45,19 @@ export default function ProductQuickViewModal({ product, onClose }) {
                 {product.discount}% OFF
               </span>
             )}
+            
+            {/* Wishlist toggle button on image */}
+            <button
+              onClick={() => toggleWishlist(product)}
+              className={`absolute bottom-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition shadow-md backdrop-blur-xs ${
+                isLiked
+                  ? 'bg-rose-50 text-rose-500'
+                  : 'bg-white text-slate-400 hover:text-rose-500'
+              }`}
+              title={isLiked ? 'Remove from wishlist' : 'Save to wishlist'}
+            >
+              <Heart size={18} className={isLiked ? 'fill-rose-500 text-rose-500 scale-110' : ''} />
+            </button>
           </div>
 
           {/* Details Column */}
@@ -121,33 +137,35 @@ export default function ProductQuickViewModal({ product, onClose }) {
                 <span className="text-[11px] text-slate-500 font-medium">Taxes calculated at cart</span>
               </div>
 
-              {currentQty === 0 ? (
-                <button
-                  onClick={() => addToCart(product, selectedWeight, multiplier)}
-                  className="flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md shadow-brand-500/30 transition active:scale-95"
-                >
-                  <Plus size={16} />
-                  <span>Add to Cart</span>
-                </button>
-              ) : (
-                <div className="flex items-center bg-brand-600 text-white rounded-xl shadow-sm overflow-hidden">
+              <div className="flex items-center gap-2">
+                {currentQty === 0 ? (
                   <button
-                    onClick={() => updateQuantity(cartKey, currentQty - 1)}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-brand-700 transition"
+                    onClick={() => addToCart(product, selectedWeight, multiplier)}
+                    className="flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md shadow-brand-500/30 transition active:scale-95"
                   >
-                    <Minus size={16} strokeWidth={3} />
+                    <Plus size={16} />
+                    <span>Add to Cart</span>
                   </button>
-                  <span className="w-8 text-center text-sm font-black select-none">
-                    {currentQty}
-                  </span>
-                  <button
-                    onClick={() => updateQuantity(cartKey, currentQty + 1)}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-brand-700 transition"
-                  >
-                    <Plus size={16} strokeWidth={3} />
-                  </button>
-                </div>
-              )}
+                ) : (
+                  <div className="flex items-center bg-brand-600 text-white rounded-xl shadow-sm overflow-hidden">
+                    <button
+                      onClick={() => updateQuantity(cartKey, currentQty - 1)}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-brand-700 transition"
+                    >
+                      <Minus size={16} strokeWidth={3} />
+                    </button>
+                    <span className="w-8 text-center text-sm font-black select-none">
+                      {currentQty}
+                    </span>
+                    <button
+                      onClick={() => updateQuantity(cartKey, currentQty + 1)}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-brand-700 transition"
+                    >
+                      <Plus size={16} strokeWidth={3} />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
           </div>

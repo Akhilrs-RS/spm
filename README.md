@@ -64,6 +64,7 @@ npm run build
 - **Gamified Basket Building**: Slide-over cart drawer with a dynamic "Free Delivery above ₹499" milestone progress bar.
 - **Deals & Seasonal Offers**: Animated flash sales timer and promotional banner carousel with instant coupon redemption (`FRESH20`, `SUPER100`).
 - **Customer Profile & 1-Click Reorder**: Edit personal contact details (+91 mobile, email, name), dietary preferences, doorstep drop notes, and view past order history with instant 1-click reordering.
+- **Wishlist & Saved Groceries**: Persistent wishlist system with real-time dynamic Navbar counter badge, slide-over Wishlist drawer, individual add-to-basket buttons, and a 1-tap "Move All to Basket" feature.
 - **Indian Payment Stack**: UPI (Google Pay, PhonePe, Paytm), RuPay/Cards, Net Banking, and Cash on Delivery (COD).
 - **Celebratory Checkout**: Multi-step checkout with celebratory order confirmation animations.
 
