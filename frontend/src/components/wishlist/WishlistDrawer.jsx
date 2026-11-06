@@ -194,3 +194,4 @@ export default function WishlistDrawer({ onQuickView }) {
     </div>
   );
 }
+
