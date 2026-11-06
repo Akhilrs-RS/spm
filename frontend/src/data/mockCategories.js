@@ -1,11 +1,13 @@
 export const CATEGORIES = [
   {
     id: 'all',
-    name: 'All Departments',
-    icon: 'Store',
-    badge: 'Popular',
+    name: 'All Categories',
+    icon: 'LayoutGrid',
+    badge: 'Explore All',
     color: 'emerald',
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80'
+    description: 'Browse all supermarket aisles and fresh collections',
+    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80',
+    subcategories: []
   },
   {
     id: 'fruits-vegetables',
@@ -13,7 +15,9 @@ export const CATEGORIES = [
     icon: 'Apple',
     badge: 'Farm Fresh',
     color: 'green',
-    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80'
+    description: 'Crisp organic fruits, leafy greens, and farm-fresh daily vegetables',
+    image: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80',
+    subcategories: ['All', 'Fresh Fruits', 'Daily Vegetables', 'Leafy Greens', 'Citrus & Exotic']
   },
   {
     id: 'dairy-eggs',
@@ -21,7 +25,9 @@ export const CATEGORIES = [
     icon: 'Milk',
     badge: 'Daily Staples',
     color: 'amber',
-    image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=400&q=80'
+    description: 'Pure A2 farm milk, free-range eggs, slow-churned butter & dahi',
+    image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=400&q=80',
+    subcategories: ['All', 'A2 & Whole Milk', 'Country Eggs', 'Dahi & Curd', 'Butter & Cheese']
   },
   {
     id: 'bakery',
@@ -29,7 +35,9 @@ export const CATEGORIES = [
     icon: 'Croissant',
     badge: 'Oven Fresh',
     color: 'yellow',
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80'
+    description: 'Slow-fermented sourdough, flaky croissants, and whole grain breads',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80',
+    subcategories: ['All', 'Artisan Sourdough', 'Croissants & Bakes', 'Whole Wheat Breads']
   },
   {
     id: 'pantry',
@@ -37,7 +45,9 @@ export const CATEGORIES = [
     icon: 'Wheat',
     badge: 'Organic',
     color: 'amber',
-    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=400&q=80'
+    description: 'Cold-pressed extra virgin oils, aged basmati rice, raw honey & pastas',
+    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=400&q=80',
+    subcategories: ['All', 'Cold-Pressed Oils', 'Aged Basmati & Atta', 'Raw Honey', 'Pastas & Grains']
   },
   {
     id: 'snacks-beverages',
@@ -45,7 +55,9 @@ export const CATEGORIES = [
     icon: 'Coffee',
     badge: 'Best Value',
     color: 'orange',
-    image: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=400&q=80'
+    description: 'Pure cold-pressed juices, roasted nuts, kettle chips & sparkling water',
+    image: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=400&q=80',
+    subcategories: ['All', 'Cold-Pressed Juices', 'Kettle Chips', 'Roasted Nuts', 'Sparkling Drinks']
   },
   {
     id: 'meat-seafood',
@@ -53,7 +65,9 @@ export const CATEGORIES = [
     icon: 'Fish',
     badge: 'Fresh Cut',
     color: 'rose',
-    image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=400&q=80'
+    description: 'Antibiotic-free tender chicken fillets, wild Atlantic salmon & mutton cuts',
+    image: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=400&q=80',
+    subcategories: ['All', 'Fresh Chicken', 'Wild Salmon & Fish', 'Mutton Cuts']
   }
 ];
 

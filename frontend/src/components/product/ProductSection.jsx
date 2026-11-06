@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { SlidersHorizontal, ArrowUpDown, Sparkles, Check, Leaf } from 'lucide-react';
+import { SlidersHorizontal, ArrowUpDown, Sparkles, Check, Leaf, ArrowLeft, LayoutGrid } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { PRODUCTS } from '../../data/mockProducts';
 import { CATEGORIES } from '../../data/mockCategories';
@@ -11,7 +11,10 @@ export default function ProductSection({
   onQuickView
 }) {
   const [filterType, setFilterType] = useState('all'); // 'all', 'organic', 'deals', 'under99'
+  const [selectedSubcategory, setSelectedSubcategory] = useState('All');
   const [sortBy, setSortBy] = useState('featured'); // 'featured', 'price-asc', 'price-desc', 'rating'
+
+  const currentCategoryObj = CATEGORIES.find((c) => c.id === selectedCategory);
 
   const filteredProducts = useMemo(() => {
     let list = [...PRODUCTS];
@@ -21,6 +24,11 @@ export default function ProductSection({
       list = list.filter((p) => p.category === selectedCategory);
     }
 
+    // Filter by Subcategory
+    if (selectedSubcategory && selectedSubcategory !== 'All') {
+      list = list.filter((p) => p.subcategory === selectedSubcategory);
+    }
+
     // Filter by Search Query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -28,6 +36,7 @@ export default function ProductSection({
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
+          (p.subcategory && p.subcategory.toLowerCase().includes(q)) ||
           p.description.toLowerCase().includes(q)
       );
     }
@@ -51,18 +60,30 @@ export default function ProductSection({
     }
 
     return list;
-  }, [selectedCategory, searchQuery, filterType, sortBy]);
-
-  const currentCategoryObj = CATEGORIES.find((c) => c.id === selectedCategory);
+  }, [selectedCategory, selectedSubcategory, searchQuery, filterType, sortBy]);
 
   return (
     <section className="my-10" id="products">
       {/* Category Title & Filters */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
+          {/* Back button if in individual category */}
+          {selectedCategory !== 'all' && (
+            <button
+              onClick={() => {
+                onSelectCategory('all');
+                setSelectedSubcategory('All');
+              }}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-brand-600 mb-2 transition"
+            >
+              <ArrowLeft size={14} />
+              <span>Back to All Categories</span>
+            </button>
+          )}
+
           <div className="flex items-center gap-2">
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              {searchQuery ? `Search results for "${searchQuery}"` : currentCategoryObj?.name || 'All Groceries'}
+              {searchQuery ? `Search results for "${searchQuery}"` : currentCategoryObj?.name || 'All Categories'}
             </h2>
             <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
               {filteredProducts.length} items
@@ -137,6 +158,28 @@ export default function ProductSection({
         </div>
       </div>
 
+      {/* Subcategory Pills (when viewing a specific category) */}
+      {currentCategoryObj && currentCategoryObj.subcategories && currentCategoryObj.subcategories.length > 0 && (
+        <div className="flex items-center gap-2 overflow-x-auto py-3 no-scrollbar border-b border-slate-100">
+          {currentCategoryObj.subcategories.map((sub) => {
+            const isSelected = selectedSubcategory === sub;
+            return (
+              <button
+                key={sub}
+                onClick={() => setSelectedSubcategory(sub)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+                  isSelected
+                    ? 'bg-brand-600 text-white shadow-xs scale-[1.02]'
+                    : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700 hover:text-slate-900'
+                }`}
+              >
+                {sub}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {/* Product Grid */}
       {filteredProducts.length === 0 ? (
         <div className="py-20 text-center">
@@ -145,11 +188,12 @@ export default function ProductSection({
           </div>
           <h3 className="text-base font-bold text-slate-800 mb-1">No groceries found</h3>
           <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
-            We couldn't find items matching your search or filters. Try adjusting your query or switching departments.
+            We couldn't find items matching your search or filters. Try adjusting your query or switching categories.
           </p>
           <button
             onClick={() => {
               setFilterType('all');
+              setSelectedSubcategory('All');
               onSelectCategory('all');
             }}
             className="px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-xl"

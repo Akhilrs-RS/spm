@@ -57,6 +57,7 @@ npm run build
 
 ## ✨ Key Features
 - **INR Currency & Localization**: Native Indian Rupee (`₹`) pricing with standard metric units (`kg`, `g`, `L`, `ml`).
+- **All Categories Showcase & Mega Drawer**: Multi-shelf category view grouping groceries by dedicated aisles with subcategory filtering and a 1-click slide-over category browser.
 - **Instant Quantity Adjustment**: Direct `[-] [qty] [+]` controls on product cards.
 - **Pack & Weight Selectors**: Dynamic unit pricing and weight variants.
 - **Express 15–25m Delivery**: Delivery time-slot picker with quick delivery guarantee.

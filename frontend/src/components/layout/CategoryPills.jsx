@@ -6,7 +6,8 @@ import {
   Croissant,
   Wheat,
   Coffee,
-  Fish
+  Fish,
+  LayoutGrid
 } from 'lucide-react';
 import { CATEGORIES } from '../../data/mockCategories';
 
@@ -17,10 +18,11 @@ const iconMap = {
   Croissant,
   Wheat,
   Coffee,
-  Fish
+  Fish,
+  LayoutGrid
 };
 
-export default function CategoryPills({ selectedCategory, onSelectCategory }) {
+export default function CategoryPills({ selectedCategory, onSelectCategory, onOpenCategoriesDrawer }) {
   return (
     <div className="bg-white border-b border-slate-200/80 sticky top-20 z-30 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,4 +62,3 @@ export default function CategoryPills({ selectedCategory, onSelectCategory }) {
     </div>
   );
 }
-

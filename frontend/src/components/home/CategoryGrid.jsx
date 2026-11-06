@@ -1,32 +1,34 @@
 import React from 'react';
 import { CATEGORIES } from '../../data/mockCategories';
 import { PRODUCTS } from '../../data/mockProducts';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
-  const categoriesWithoutAll = CATEGORIES.filter(c => c.id !== 'all');
+  const categoriesWithoutAll = CATEGORIES.filter((c) => c.id !== 'all');
 
   return (
     <div className="my-10">
       <div className="flex items-center justify-between mb-5">
         <div>
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-            Explore Supermarket Aisles
+            Shop by Category
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Hand-picked farm harvest, artisan bakes, and everyday pantry essentials
+            Explore dedicated grocery aisles with farm fresh quality and quick 15–25m delivery
           </p>
         </div>
         <button
           onClick={() => onSelectCategory('all')}
-          className="text-xs font-bold text-brand-600 hover:text-brand-700"
+          className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 group"
         >
-          View All Departments →
+          <span>View All Categories</span>
+          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
         {categoriesWithoutAll.map((cat) => {
-          const count = PRODUCTS.filter(p => p.category === cat.id).length;
+          const count = PRODUCTS.filter((p) => p.category === cat.id).length;
           const isSelected = selectedCategory === cat.id;
 
           return (
@@ -61,4 +63,3 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
     </div>
   );
 }
-

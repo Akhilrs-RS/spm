@@ -7,13 +7,20 @@ import {
   Sparkles,
   Heart,
   User,
-  X
+  X,
+  LayoutGrid
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useLocation } from '../../context/LocationContext';
 import { formatINR } from '../../utils/formatCurrency';
 
-export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, setSelectedCategory }) {
+export default function Navbar({
+  searchQuery,
+  setSearchQuery,
+  selectedCategory,
+  setSelectedCategory,
+  onOpenCategoriesDrawer
+}) {
   const { totalItemCount, subtotal, setIsCartOpen } = useCart();
   const { selectedAddress, setIsLocationModalOpen } = useLocation();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -23,8 +30,8 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
-          {/* Brand Logo */}
-          <div className="flex items-center gap-6">
+          {/* Brand Logo & Categories Button */}
+          <div className="flex items-center gap-4 sm:gap-6">
             <a href="#" className="flex items-center gap-2 group">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition">
                 <ShoppingBag size={22} strokeWidth={2.4} />
@@ -39,6 +46,16 @@ export default function Navbar({ searchQuery, setSearchQuery, selectedCategory, 
                 </span>
               </div>
             </a>
+
+            {/* All Categories Trigger Button */}
+            <button
+              onClick={onOpenCategoriesDrawer}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-brand-800 font-bold text-xs border border-emerald-200/70 transition shadow-2xs group"
+              title="Explore all supermarket categories"
+            >
+              <LayoutGrid size={16} className="text-brand-600 group-hover:rotate-90 transition-transform duration-300" />
+              <span className="hidden md:inline">Categories</span>
+            </button>
 
             {/* Location Selector Pill */}
             <button

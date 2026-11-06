@@ -8,12 +8,14 @@ import Footer from './components/layout/Footer';
 import HeroSlider from './components/home/HeroSlider';
 import FlashDeals from './components/home/FlashDeals';
 import CategoryGrid from './components/home/CategoryGrid';
+import AllCategoriesView from './components/home/AllCategoriesView';
 import ProductSection from './components/product/ProductSection';
 import ProductQuickViewModal from './components/product/ProductQuickViewModal';
 import CartDrawer from './components/cart/CartDrawer';
 import CheckoutModal from './components/checkout/CheckoutModal';
 import OrderSuccessModal from './components/checkout/OrderSuccessModal';
 import LocationModal from './components/common/LocationModal';
+import AllCategoriesDrawer from './components/common/AllCategoriesDrawer';
 import Toast from './components/common/Toast';
 
 function SupermarketApp() {
@@ -21,16 +23,21 @@ function SupermarketApp() {
   const [searchQuery, setSearchQuery] = useState('');
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isCategoriesDrawerOpen, setIsCategoriesDrawerOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
 
   const handleSelectCategory = (catId) => {
     setSelectedCategory(catId);
     setSearchQuery('');
-    // Smooth scroll down to products section if clicked from Hero or Grid
-    const prodSection = document.getElementById('products');
-    if (prodSection) {
-      prodSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    
+    // Smooth scroll down to products section if specific category or all categories
+    setTimeout(() => {
+      const targetId = catId === 'all' ? 'all-categories-section' : 'products';
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handleOrderPlaced = (details) => {
@@ -47,10 +54,12 @@ function SupermarketApp() {
         setSearchQuery={setSearchQuery}
         selectedCategory={selectedCategory}
         setSelectedCategory={handleSelectCategory}
+        onOpenCategoriesDrawer={() => setIsCategoriesDrawerOpen(true)}
       />
       <CategoryPills
         selectedCategory={selectedCategory}
         onSelectCategory={handleSelectCategory}
+        onOpenCategoriesDrawer={() => setIsCategoriesDrawerOpen(true)}
       />
 
       {/* Main Supermarket Content */}
@@ -67,13 +76,24 @@ function SupermarketApp() {
           </>
         )}
 
-        {/* Product Catalog Grid with Filters */}
-        <ProductSection
-          selectedCategory={selectedCategory}
-          onSelectCategory={handleSelectCategory}
-          searchQuery={searchQuery}
-          onQuickView={(prod) => setQuickViewProduct(prod)}
-        />
+        {/* 
+          If user is searching or has picked an individual category (e.g. fruits-vegetables),
+          show the deep-dive ProductSection with subcategory chips and filters.
+          If selectedCategory is 'all' and not searching, show the dedicated AllCategoriesView (Category Shelves)!
+        */}
+        {selectedCategory === 'all' && !searchQuery ? (
+          <AllCategoriesView
+            onSelectCategory={handleSelectCategory}
+            onQuickView={(prod) => setQuickViewProduct(prod)}
+          />
+        ) : (
+          <ProductSection
+            selectedCategory={selectedCategory}
+            onSelectCategory={handleSelectCategory}
+            searchQuery={searchQuery}
+            onQuickView={(prod) => setQuickViewProduct(prod)}
+          />
+        )}
       </main>
 
       {/* Footer */}
@@ -81,6 +101,13 @@ function SupermarketApp() {
 
       {/* Modals & Slide-Overs */}
       <CartDrawer onProceedCheckout={() => setIsCheckoutOpen(true)} />
+
+      <AllCategoriesDrawer
+        isOpen={isCategoriesDrawerOpen}
+        onClose={() => setIsCategoriesDrawerOpen(false)}
+        onSelectCategory={handleSelectCategory}
+        onQuickView={(prod) => setQuickViewProduct(prod)}
+      />
 
       <CheckoutModal
         isOpen={isCheckoutOpen}
@@ -113,4 +140,3 @@ export default function App() {
     </LocationProvider>
   );
 }
-

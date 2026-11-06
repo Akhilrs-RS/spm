@@ -80,7 +80,7 @@ export default function Footer() {
 
           {/* Quick Categories */}
           <div>
-            <h5 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Aisles & Departments</h5>
+            <h5 className="text-xs font-bold uppercase tracking-wider text-white mb-4">All Categories</h5>
             <ul className="space-y-2 text-xs text-slate-400">
               <li><a href="#" className="hover:text-brand-400 transition">Organic Fruits & Veggies</a></li>
               <li><a href="#" className="hover:text-brand-400 transition">A2 Cow Milk, Dahi & Eggs</a></li>
