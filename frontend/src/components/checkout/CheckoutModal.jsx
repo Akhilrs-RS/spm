@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useLocation } from '../../context/LocationContext';
+import { useUser } from '../../context/UserContext';
 import { formatINR } from '../../utils/formatCurrency';
 
 const SLOTS = [
@@ -26,6 +27,7 @@ const SLOTS = [
 export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
   const { cartItems, totalItemCount, grandTotal, clearCart } = useCart();
   const { selectedAddress, setIsLocationModalOpen } = useLocation();
+  const { profile, addOrderToHistory } = useUser();
 
   const [selectedSlot, setSelectedSlot] = useState(SLOTS[0]);
   const [paymentMethod, setPaymentMethod] = useState('upi');
@@ -37,15 +39,21 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      clearCart();
-      onOrderPlaced({
+      const orderPayload = {
         orderId: `FC-IN-${Math.floor(100000 + Math.random() * 900000)}`,
         address: selectedAddress,
         slot: selectedSlot,
         itemsCount: totalItemCount,
         total: grandTotal,
-        paymentMethod
-      });
+        paymentMethod,
+        cartItems: [...cartItems]
+      };
+
+      // Add to persistent user order history
+      addOrderToHistory(orderPayload);
+
+      clearCart();
+      onOrderPlaced(orderPayload);
     }, 1200);
   };
 
@@ -69,10 +77,10 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
 
         <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
           
-          {/* Step 1: Delivery Address */}
+          {/* Step 1: Delivery Address & Contact Info */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">1. Delivery Address</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">1. Delivery Address & Contact</span>
               <button
                 type="button"
                 onClick={() => setIsLocationModalOpen(true)}
@@ -93,6 +101,11 @@ export default function CheckoutModal({ isOpen, onClose, onOrderPlaced }) {
                   <span className="text-xs text-emerald-600 font-bold">
                     ⚡ {selectedAddress?.estimatedMinutes} mins
                   </span>
+                  {profile.name && (
+                    <span className="text-xs text-slate-500 font-medium truncate">
+                      • {profile.name} (+91 {profile.phone})
+                    </span>
+                  )}
                 </div>
                 <p className="text-sm font-semibold text-slate-800 mt-1 truncate">{selectedAddress?.address}</p>
                 <p className="text-xs text-slate-400">{selectedAddress?.city} • PIN: {selectedAddress?.zip}</p>

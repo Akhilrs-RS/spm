@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useLocation } from '../../context/LocationContext';
+import { useUser } from '../../context/UserContext';
 import { formatINR } from '../../utils/formatCurrency';
 
 export default function Navbar({
@@ -23,7 +24,15 @@ export default function Navbar({
 }) {
   const { totalItemCount, subtotal, setIsCartOpen } = useCart();
   const { selectedAddress, setIsLocationModalOpen } = useLocation();
+  const { profile, setIsProfileOpen } = useUser();
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const getInitials = (fullName) => {
+    if (!fullName) return 'U';
+    const parts = fullName.trim().split(' ');
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all">
@@ -113,7 +122,7 @@ export default function Navbar({
           </div>
 
           {/* Actions & Dynamic Cart Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Wishlist Icon */}
             <button
               title="Saved Groceries"
@@ -123,12 +132,21 @@ export default function Navbar({
               <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-orange-500 ring-2 ring-white"></span>
             </button>
 
-            {/* Account Icon */}
+            {/* Profile / Account Button */}
             <button
-              title="My Account"
-              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition"
+              onClick={() => setIsProfileOpen(true)}
+              title="My Account & Orders"
+              className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-slate-700 hover:text-brand-700 hover:bg-slate-100 border border-slate-200/80 transition group"
             >
-              <User size={20} />
+              <div className={`w-8 h-8 rounded-lg ${profile.avatarColor || 'bg-brand-600'} text-white flex items-center justify-center text-xs font-black shadow-xs`}>
+                {getInitials(profile.name)}
+              </div>
+              <div className="hidden md:flex flex-col text-left leading-tight pr-1">
+                <span className="text-[10px] text-slate-400 font-medium">Hello,</span>
+                <span className="text-xs font-bold text-slate-800 truncate max-w-[90px]">
+                  {profile.name ? profile.name.split(' ')[0] : 'Profile'}
+                </span>
+              </div>
             </button>
 
             {/* Dynamic Cart Pill */}

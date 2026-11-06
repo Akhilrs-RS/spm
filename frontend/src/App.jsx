@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CartProvider } from './context/CartContext';
 import { LocationProvider } from './context/LocationContext';
+import { UserProvider } from './context/UserContext';
 import TopPromoBar from './components/layout/TopPromoBar';
 import Navbar from './components/layout/Navbar';
 import CategoryPills from './components/layout/CategoryPills';
@@ -16,6 +17,7 @@ import CheckoutModal from './components/checkout/CheckoutModal';
 import OrderSuccessModal from './components/checkout/OrderSuccessModal';
 import LocationModal from './components/common/LocationModal';
 import AllCategoriesDrawer from './components/common/AllCategoriesDrawer';
+import ProfileModal from './components/profile/ProfileModal';
 import Toast from './components/common/Toast';
 
 function SupermarketApp() {
@@ -109,6 +111,8 @@ function SupermarketApp() {
         onQuickView={(prod) => setQuickViewProduct(prod)}
       />
 
+      <ProfileModal />
+
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
@@ -133,10 +137,12 @@ function SupermarketApp() {
 
 export default function App() {
   return (
-    <LocationProvider>
-      <CartProvider>
-        <SupermarketApp />
-      </CartProvider>
-    </LocationProvider>
+    <UserProvider>
+      <LocationProvider>
+        <CartProvider>
+          <SupermarketApp />
+        </CartProvider>
+      </LocationProvider>
+    </UserProvider>
   );
 }

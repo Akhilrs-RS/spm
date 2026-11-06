@@ -63,6 +63,7 @@ npm run build
 - **Express 15–25m Delivery**: Delivery time-slot picker with quick delivery guarantee.
 - **Gamified Basket Building**: Slide-over cart drawer with a dynamic "Free Delivery above ₹499" milestone progress bar.
 - **Deals & Seasonal Offers**: Animated flash sales timer and promotional banner carousel with instant coupon redemption (`FRESH20`, `SUPER100`).
+- **Customer Profile & 1-Click Reorder**: Edit personal contact details (+91 mobile, email, name), dietary preferences, doorstep drop notes, and view past order history with instant 1-click reordering.
 - **Indian Payment Stack**: UPI (Google Pay, PhonePe, Paytm), RuPay/Cards, Net Banking, and Cash on Delivery (COD).
 - **Celebratory Checkout**: Multi-step checkout with celebratory order confirmation animations.
 
