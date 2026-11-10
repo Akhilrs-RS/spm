@@ -25,12 +25,26 @@ lerna-debug.log*
 .DS_Store
 Thumbs.db
 
-# Editor directories
+# Editor & IDE directories
 .vscode/
 .idea/
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
+.vs/
 
+# .NET & Build outputs
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+.local/
+Library/
+backend/Library/
+backend/**/bin/
+backend/**/obj/
+backend/**/.local/

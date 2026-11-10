@@ -1,0 +1,89 @@
+@FreshCart.Api_HostAddress = http://localhost:5000
+
+### 1. Get All Categories
+GET {{FreshCart.Api_HostAddress}}/api/categories
+Accept: application/json
+
+### 2. Get Products (Filtered)
+GET {{FreshCart.Api_HostAddress}}/api/products?category=fruits-vegetables&sortBy=popular
+Accept: application/json
+
+### 3. Get Flash Deals
+GET {{FreshCart.Api_HostAddress}}/api/products/flash-deals
+Accept: application/json
+
+### 4. Get Single Product
+GET {{FreshCart.Api_HostAddress}}/api/products/prod-1
+Accept: application/json
+
+### 5. Validate Coupon
+POST {{FreshCart.Api_HostAddress}}/api/coupons/validate
+Content-Type: application/json
+
+{
+  "code": "FRESH20",
+  "subtotal": 540
+}
+
+### 6. Get User Profile
+GET {{FreshCart.Api_HostAddress}}/api/user/profile?userId=user-1
+Accept: application/json
+
+### 7. Update User Profile
+PUT {{FreshCart.Api_HostAddress}}/api/user/profile?userId=user-1
+Content-Type: application/json
+
+{
+  "name": "Akhil R S",
+  "email": "akhilrajanshiners@gmail.com",
+  "phone": "9876543210",
+  "avatarColor": "bg-emerald-600",
+  "dietaryPreference": "organic",
+  "deliveryInstruction": "Ring doorbell and leave on porch table"
+}
+
+### 8. Get Wishlist
+GET {{FreshCart.Api_HostAddress}}/api/wishlist?userId=user-1
+Accept: application/json
+
+### 9. Toggle Wishlist
+POST {{FreshCart.Api_HostAddress}}/api/wishlist/toggle
+Content-Type: application/json
+
+{
+  "userId": "user-1",
+  "productId": "prod-1"
+}
+
+### 10. Get Orders
+GET {{FreshCart.Api_HostAddress}}/api/orders?userId=user-1
+Accept: application/json
+
+### 11. Place Order
+POST {{FreshCart.Api_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+  "userId": "user-1",
+  "slotLabel": "⚡ Express Delivery",
+  "slotTime": "15-25 mins",
+  "paymentMethod": "upi",
+  "promoCode": "FRESH20",
+  "deliveryAddress": {
+    "label": "Home",
+    "addressLine": "Flat 402, Green Glen Layout, Bellandur",
+    "city": "Bengaluru",
+    "zipCode": "560103",
+    "estimatedMinutes": "15-25"
+  },
+  "items": [
+    {
+      "productId": "prod-1",
+      "productName": "Organic Shimla / Kinnaur Apples",
+      "price": 189,
+      "quantity": 2,
+      "weightOption": "1 kg (~5-6 apples)",
+      "imageUrl": "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=500&q=80"
+    }
+  ]
+}
