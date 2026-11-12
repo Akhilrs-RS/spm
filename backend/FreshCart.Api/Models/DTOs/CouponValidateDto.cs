@@ -20,3 +20,4 @@ namespace FreshCart.Api.Models.DTOs
         public decimal DiscountAmount { get; set; }
     }
 }
+

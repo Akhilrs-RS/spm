@@ -36,3 +36,4 @@ namespace FreshCart.Api.Models.Entities
         public string ImageUrl { get; set; } = string.Empty;
     }
 }
+

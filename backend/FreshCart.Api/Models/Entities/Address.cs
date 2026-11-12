@@ -37,3 +37,4 @@ namespace FreshCart.Api.Models.Entities
         public string EstimatedMinutes { get; set; } = "15-25";
     }
 }
+

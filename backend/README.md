@@ -67,3 +67,4 @@ The API will start at:
 ## 5. Testing with REST Client
 
 Use the included [FreshCart.Api.http](FreshCart.Api/FreshCart.Api.http) in VS Code or Visual Studio to test all endpoints interactively.
+

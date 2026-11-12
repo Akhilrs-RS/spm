@@ -36,3 +36,4 @@ namespace FreshCart.Api.Models.Entities
         public List<Order> Orders { get; set; } = new();
     }
 }
+

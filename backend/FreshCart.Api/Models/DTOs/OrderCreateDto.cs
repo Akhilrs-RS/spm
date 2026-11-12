@@ -47,3 +47,4 @@ namespace FreshCart.Api.Models.DTOs
         public string ImageUrl { get; set; } = string.Empty;
     }
 }
+

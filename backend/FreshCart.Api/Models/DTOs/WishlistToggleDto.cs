@@ -17,3 +17,4 @@ namespace FreshCart.Api.Models.DTOs
         public int TotalCount { get; set; }
     }
 }
+

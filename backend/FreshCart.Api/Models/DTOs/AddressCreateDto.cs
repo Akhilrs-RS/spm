@@ -25,3 +25,4 @@ namespace FreshCart.Api.Models.DTOs
         public string EstimatedMinutes { get; set; } = "15-25";
     }
 }
+

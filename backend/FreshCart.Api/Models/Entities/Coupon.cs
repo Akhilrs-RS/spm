@@ -24,3 +24,4 @@ namespace FreshCart.Api.Models.Entities
         public string Description { get; set; } = string.Empty;
     }
 }
+
