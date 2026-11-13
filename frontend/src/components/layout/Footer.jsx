@@ -50,7 +50,7 @@ export default function Footer() {
         </div>
 
         {/* Footer Navigation Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 py-12">
           
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
@@ -101,27 +101,6 @@ export default function Footer() {
               <li><a href="#" className="hover:text-brand-400 transition">Weekly Grocery Savings</a></li>
               <li><a href="#" className="hover:text-brand-400 transition">FreshCart Coins & Loyalty</a></li>
             </ul>
-          </div>
-
-          {/* Newsletter Box */}
-          <div>
-            <h5 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Weekly Fresh Savings</h5>
-            <p className="text-xs text-slate-400 mb-3">
-              Subscribe for exclusive flash deals, Mandi harvest updates, and seasonal Indian recipes.
-            </p>
-            <div className="space-y-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-3.5 py-2 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
-              />
-              <button
-                type="button"
-                className="w-full py-2 bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs rounded-xl transition shadow-md"
-              >
-                Get ₹100 Off First Order
-              </button>
-            </div>
           </div>
 
         </div>
